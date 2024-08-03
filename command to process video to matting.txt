@@ -1,0 +1,1 @@
+ python inference.py --variant mobilenetv3 --checkpoint checkpoint/rvm_mobilenetv3.pth --device cuda --input-source "input/compressed - input.mp4" --output-type video --output-composition "output/com-compressed - output.mp4" --output-alpha "output/alp-compressed - output.mp4" --output-video-mbps 5 --seq-chunk 12 --downsample-ratio 0.2

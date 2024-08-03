@@ -121,7 +121,7 @@ def convert_video(model,
             for src in reader:
 
                 if downsample_ratio is None:
-                    downsample_ratio = auto_downsample_ratio(*src.shape[2:])
+                    downsample_ratio = auto_downsample_ratio(*src.shape[2:],cont_type='full-body')
 
                 src = src.to(device, dtype, non_blocking=True).unsqueeze(0) # [B, T, C, H, W]
                 fgr, pha, *rec = model(src, *rec, downsample_ratio)
@@ -150,11 +150,28 @@ def convert_video(model,
             writer_fgr.close()
 
 
-def auto_downsample_ratio(h, w):
+def auto_downsample_ratio(h, w, content_type='full-body'):
     """
     Automatically find a downsample ratio so that the largest side of the resolution be 512px.
+    Adjust based on content type: 'portrait' or 'full-body'.
     """
-    return min(512 / max(h, w), 1)
+    if content_type == 'portrait':
+        return min(512 / max(h, w), 1)
+    elif content_type == 'full-body':
+        if max(h, w) <= 512:
+            return 1
+        elif max(h, w) <= 1280:
+            return 0.6
+        elif max(h, w) <= 1920:
+            return 0.4
+        elif max(h, w) <= 3840:
+            return 0.2
+        elif max(h, w) <= 7680:
+            return 0.1
+        else:
+            return min(512 / max(h, w), 0.1)
+    else:
+        raise ValueError("Invalid content type. Choose 'portrait' or 'full-body'.")
 
 
 class Converter:

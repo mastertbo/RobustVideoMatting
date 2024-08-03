@@ -1,0 +1,14 @@
+{
+    "variant": "mobilenetv3",
+    "checkpoint": "checkpoint/rvm_mobilenetv3.pth",
+    "device": "cuda",
+    "input_source": "input/compressed-Badoinkvr Office Politics 7K 180 180X180 3Dh(1).mp4",
+    "input_resize": [1080, 720],
+    "downsample_ratio": 0.5,
+    "output_type": "video",
+    "output_composition": "output/com-compressed-Badoinkvr Office Politics 7K 180 180X180 3Dh(1).mp4",
+    "output_alpha": "output/alp-compressed-Badoinkvr Office Politics 7K 180 180X180 3Dh(1).mp4",    "output_video_mbps": 4,
+    "seq_chunk": 1,
+    "num_workers": 4,
+    "disable_progress": false
+}
